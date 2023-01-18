@@ -30,10 +30,18 @@ def main():
     # train_set.plot(kind='scatter',x='long',y='lat',alpha=0.3,c='price',cmap=plt.get_cmap("jet"),colorbar=True,)
     
 
-    from pandas.plotting import scatter_matrix
+    # from pandas.plotting import scatter_matrix
 
-    attributes = ['price','bedrooms','bathrooms','lat','long']
-    scatter_matrix(real_estate_df[attributes])
+    # attributes = ['price','bedrooms','bathrooms','lat','long']
+    # scatter_matrix(real_estate_df[attributes])
+
+    #creation of new features 
+    real_estate_df['total_bedrooms'] = real_estate_df['bedrooms']+real_estate_df['smaller_rooms']
+    real_estate_df['total_rooms'] = real_estate_df['bathrooms']+real_estate_df['total_bedrooms']
+    lat0,long0 = 43.651,-79.347 #DownTown Toronto 
+    real_estate_df['r'] = np.sqrt((real_estate_df['lat']-lat0)**2+(real_estate_df['long']-long0)**2)
+
+
 
     plt.show()
 
