@@ -22,9 +22,7 @@ def main():
     # real_estate_df.hist(bins=50,figsize=(10,10))
     # plt.show()
 
-    # spliting the data
-    train_set,test_set = train_test_split(real_estate_df,test_size=0.2,random_state=42)
-   
+    
     # #ploting the real estate location
     # train_set['price_log'] = np.log(train_set['price'])
     # train_set.plot(kind='scatter',x='long',y='lat',alpha=0.3,c='price',cmap=plt.get_cmap("jet"),colorbar=True,)
@@ -41,7 +39,12 @@ def main():
     lat0,long0 = 43.651,-79.347 #DownTown Toronto 
     real_estate_df['r'] = np.sqrt((real_estate_df['lat']-lat0)**2+(real_estate_df['long']-long0)**2)
 
+    #data cleaning
+    real_estate_df = real_estate_df[real_estate_df['bedrooms']!=0]
 
+    # spliting the data
+    train_set,test_set = train_test_split(real_estate_df,test_size=0.2,random_state=42)
+   
 
     plt.show()
 
