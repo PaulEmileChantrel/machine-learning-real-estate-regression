@@ -30,7 +30,7 @@ def main():
     real_estate_df = real_estate_df[real_estate_df['price']>=10000]
 
     # # first look at the data
-    # print(real_estate_df.info())
+    print(real_estate_df.info())
     # print(real_estate_df.describe())
     # print(real_estate_df['bedrooms'].value_counts())
     # real_estate_df.hist(bins=50,figsize=(10,10))
@@ -61,12 +61,18 @@ def main():
     
     train_set,test_set = train_test_split(real_estate_df,test_size=0.2,random_state=42)
    
-    print(real_estate_df[['street_address','unit_number','city','state','id']].head())
+    #print(real_estate_df[['street_address','unit_number','city','state','id']].head())
     
     from sklearn.impute import SimpleImputer
 
-    inputer = SimpleImputer(strategy = "median")
-    re_city = real_estate_df.drop("city",axis=1)
+    imputer = SimpleImputer(strategy = "median")
+    re_nums = real_estate_df.drop(['street_address','unit_number','city','state','link','image','address','posted','id'],axis=1)
+
+    imputer.fit(re_nums)
+    X = imputer.transform(re_nums)
+    re_tr = pd.DataFrame(X,columns=re_nums.columns,index=re_nums.index)
+
+    
 
     #plt.show()
 
