@@ -66,6 +66,7 @@ def main():
     from sklearn.impute import SimpleImputer
 
     inputer = SimpleImputer(strategy = "median")
+    re_city = real_estate_df.drop("city",axis=1)
 
     #plt.show()
 
