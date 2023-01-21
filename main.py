@@ -72,7 +72,17 @@ def main():
     X = imputer.transform(re_nums)
     re_tr = pd.DataFrame(X,columns=re_nums.columns,index=re_nums.index)
 
+    re_city = real_estate_df[['city']]
+    # from sklearn.preprocessing import OrdinalEncoder
+    # ordinal_encoder = OrdinalEncoder()
+    # city_enc = ordinal_encoder.fit_transform(re_city)
+    # print(city_enc[:10])
+    from sklearn.preprocessing import OneHotEncoder
+    city_encoder = OneHotEncoder()
+    re_city_1hot = city_encoder.fit_transform(re_city)
     
+    print(re_city_1hot.toarray())
+
 
     #plt.show()
 
