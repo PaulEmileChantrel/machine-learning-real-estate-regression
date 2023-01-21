@@ -20,6 +20,14 @@ def format_address(df):
 
 
     return df
+
+from sklearn.base import BaseEstimator,TransformerMixin
+
+class CombineAttributesAdder(BaseEstimator,TransformerMixin):
+    def __init__(self,add_berooms_per_rooms=True):
+        self.add_berooms_per_rooms = add_berooms_per_rooms
+
+    #todo
 def main():
     
     #loading the data
@@ -83,6 +91,14 @@ def main():
     
     print(re_city_1hot.toarray())
 
+    from sklearn.pipeline import Pipeline
+    from sklearn.preprocessing import StandardScaler
+
+    num_pipeline = Pipeline([
+        ('inputer',SimpleImputer(strategy="median")),
+        ('attribd_adder',CombineAttributesAdder()),
+        ('std_scaler',StandardScaler()),
+    ])
 
     #plt.show()
 
