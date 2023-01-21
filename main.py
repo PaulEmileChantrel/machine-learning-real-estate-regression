@@ -24,8 +24,23 @@ def format_address(df):
 from sklearn.base import BaseEstimator,TransformerMixin
 
 class CombineAttributesAdder(BaseEstimator,TransformerMixin):
-    def __init__(self,add_berooms_per_rooms=True):
-        self.add_berooms_per_rooms = add_berooms_per_rooms
+    def __init__(self):
+        pass
+
+    def fit(self,X,y=None):
+        return self
+    
+    def transform(self, X):
+        bedrooms_idx,smaller_rooms_idx,bathrooms_idx = 3,4,5
+     
+        lat_idx,long_idx = 1,2
+         
+        lat0,long0 = 43.651,-79.347
+
+        total_bedrooms = X[:,bedrooms_idx]+X[:,smaller_rooms_idx]
+        total_rooms = total_bedrooms + X[:,bathrooms_idx]
+        r = np.sqrt((X[:,lat_idx]-lat0)**2+(X[:,long_idx]-long0)**2)
+        return np._c[X,total_bedrooms,total_rooms,r]
 
     #todo
 def main():
@@ -90,7 +105,7 @@ def main():
     re_city_1hot = city_encoder.fit_transform(re_city)
     
     print(re_city_1hot.toarray())
-
+    print(re_nums.info())
     from sklearn.pipeline import Pipeline
     from sklearn.preprocessing import StandardScaler
 
