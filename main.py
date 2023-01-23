@@ -40,7 +40,7 @@ class CombineAttributesAdder(BaseEstimator,TransformerMixin):
         total_bedrooms = X[:,bedrooms_idx]+X[:,smaller_rooms_idx]
         total_rooms = total_bedrooms + X[:,bathrooms_idx]
         r = np.sqrt((X[:,lat_idx]-lat0)**2+(X[:,long_idx]-long0)**2)
-        return np._c[X,total_bedrooms,total_rooms,r]
+        return np.c_[X,total_bedrooms,total_rooms,r]
 
     #todo
 def main():
@@ -115,6 +115,8 @@ def main():
         ('std_scaler',StandardScaler()),
     ])
 
+    re_num_tr = num_pipeline.fit_transform(re_nums)
+    print(re_num_tr[:10])
     #plt.show()
 
 if __name__ == '__main__':
