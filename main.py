@@ -119,5 +119,17 @@ def main():
     print(re_num_tr[:10])
     #plt.show()
 
+    from sklearn.compose import ColumnTransformer
+
+    num_attribs = list(re_nums)
+    cat_attribs = list('city')
+
+    full_pipeline = ColumnTransformer([
+        ('num',num_pipeline,num_attribs),
+        ('cat',OneHotEncoder(),cat_attribs),
+    ])
+         
+    
+
 if __name__ == '__main__':
     main()
