@@ -82,7 +82,9 @@ def main():
 
     # spliting the data
     
-    train_set,test_set = train_test_split(real_estate_df,test_size=0.2,random_state=42)
+    real_estate_df,test_set = train_test_split(real_estate_df,test_size=0.2,random_state=42)
+    labels = real_estate_df[['price']]
+    real_estate_df = real_estate_df.drop(['price'],axis=1).reset_index(drop=True)
    
     #print(real_estate_df[['street_address','unit_number','city','state','id']].head())
     
@@ -104,8 +106,9 @@ def main():
     city_encoder = OneHotEncoder()
     re_city_1hot = city_encoder.fit_transform(re_city)
     
-    print(re_city_1hot.toarray())
+    #print(re_city_1hot.toarray())
     print(re_nums.info())
+    
     from sklearn.pipeline import Pipeline
     from sklearn.preprocessing import StandardScaler
 
@@ -116,20 +119,25 @@ def main():
     ])
 
     re_num_tr = num_pipeline.fit_transform(re_nums)
-    print(re_num_tr[:10])
+    #print(re_num_tr[:10])
     #plt.show()
 
     from sklearn.compose import ColumnTransformer
 
     num_attribs = list(re_nums)
-    cat_attribs = list('city')
+    cat_attribs = ['city']
 
     full_pipeline = ColumnTransformer([
         ('num',num_pipeline,num_attribs),
         ('cat',OneHotEncoder(),cat_attribs),
     ])
-         
+
+    re_prepared = full_pipeline.fit_transform(real_estate_df)
     
+    from sklearn.linear_model import LinearRegression
+
+    lin_reg = LinearRegression()
+    lin_reg.fit(re_prepared,labels)
 
 if __name__ == '__main__':
     main()
