@@ -83,11 +83,13 @@ def main():
     # spliting the data
     
     real_estate_df,test_set = train_test_split(real_estate_df,test_size=0.2,random_state=42)
-    labels = real_estate_df[['price']]
-    real_estate_df = real_estate_df.drop(['price'],axis=1).reset_index(drop=True)
-   
+    real_estate_df = real_estate_df.reset_index(drop=True)
+    labels = real_estate_df['price'].copy()
+    real_estate_df = real_estate_df.drop(['price'],axis=1)
     #print(real_estate_df[['street_address','unit_number','city','state','id']].head())
     
+    #corr_matrix = real_estate_df.corr()
+    #print()
     from sklearn.impute import SimpleImputer
 
     imputer = SimpleImputer(strategy = "median")
@@ -138,6 +140,18 @@ def main():
 
     lin_reg = LinearRegression()
     lin_reg.fit(re_prepared,labels)
+    print(labels)
+    some_data = real_estate_df.iloc[:10]
+    some_labels = labels.iloc[:10]
+    some_prepared_data = full_pipeline.transform(some_data)
 
+    print("Predictions :", lin_reg.predict(some_prepared_data))
+    print("Labels:",list(some_labels))
+    from sklearn.metrics import mean_squared_error
+    mse = mean_squared_error(labels,lin_reg.predict(re_prepared))
+    mse = np.sqrt(mse)
+    print(mse)
+
+   
 if __name__ == '__main__':
     main()
