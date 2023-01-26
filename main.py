@@ -80,6 +80,9 @@ def main():
     real_estate_df = real_estate_df[real_estate_df['bedrooms']!=0]
     real_estate_df = format_address(real_estate_df)
 
+    corr_matrix = real_estate_df.corr()
+    print(corr_matrix["price"].sort_values(ascending=False))
+
     # spliting the data
     
     real_estate_df,test_set = train_test_split(real_estate_df,test_size=0.2,random_state=42)
@@ -88,8 +91,7 @@ def main():
     real_estate_df = real_estate_df.drop(['price'],axis=1)
     #print(real_estate_df[['street_address','unit_number','city','state','id']].head())
     
-    #corr_matrix = real_estate_df.corr()
-    #print()
+    
     from sklearn.impute import SimpleImputer
 
     imputer = SimpleImputer(strategy = "median")
