@@ -42,7 +42,10 @@ class CombineAttributesAdder(BaseEstimator,TransformerMixin):
         r = np.sqrt((X[:,lat_idx]-lat0)**2+(X[:,long_idx]-long0)**2)
         return np.c_[X,total_bedrooms,total_rooms,r]
 
-    #todo
+def display_score(scores):
+    print("Score:",scores)
+    print("Mean:",scores.mean())
+    print("Standard Deviation:",scores.std())
 def main():
     
     #loading the data
@@ -166,7 +169,7 @@ def main():
     from sklearn.model_selection import cross_val_score
     scores = cross_val_score(tree_reg,re_prepared,labels,scoring='neg_mean_squared_error',cv=10)
     tree_rmse_score = np.sqrt(-scores)
-    print(tree_rmse_score)
+    display_score(tree_rmse_score)
     from sklearn.ensemble import RandomForestRegressor
    
 if __name__ == '__main__':
