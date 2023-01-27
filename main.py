@@ -170,7 +170,20 @@ def main():
     scores = cross_val_score(tree_reg,re_prepared,labels,scoring='neg_mean_squared_error',cv=10)
     tree_rmse_score = np.sqrt(-scores)
     display_score(tree_rmse_score)
+
+    lin_scores = cross_val_score(lin_reg,re_prepared,labels,scoring='neg_mean_squared_error',cv=10)
+    lin_rmse_score = np.sqrt(-lin_scores)
+    display_score(lin_rmse_score)
+
     from sklearn.ensemble import RandomForestRegressor
-   
+    forest_reg = RandomForestRegressor()
+    forest_reg.fit(re_prepared,labels)
+    forest_prediction = forest_reg.predict(re_prepared)
+    forest_rmse = mean_squared_error(labels,forest_prediction)
+    forest_rmse = np.sqrt(forest_rmse)
+    scores = cross_val_score(forest_reg,re_prepared,labels,scoring='neg_mean_squared_error',cv=10)
+    forest_rmse_score = np.sqrt(-scores)
+    display_score(forest_rmse_score)    
+    
 if __name__ == '__main__':
     main()
