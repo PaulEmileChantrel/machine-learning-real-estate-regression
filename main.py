@@ -163,6 +163,10 @@ def main():
     tree_mse = np.sqrt(tree_mse)
     print(tree_mse)
 
+    from sklearn.model_selection import cross_val_score
+    scores = cross_val_score(tree_reg,re_prepared,labels,scoring='neg_mean_squared_error',cv=10)
+    tree_rmse_score = np.sqrt(-scores)
+    print(tree_rmse_score)
     from sklearn.ensemble import RandomForestRegressor
    
 if __name__ == '__main__':
