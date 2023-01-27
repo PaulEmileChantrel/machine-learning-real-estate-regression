@@ -154,6 +154,16 @@ def main():
     mse = np.sqrt(mse)
     print(mse)
 
+    from sklearn.tree import DecisionTreeRegressor
+
+    tree_reg = DecisionTreeRegressor()
+    tree_reg.fit(re_prepared,labels)
+    re_predictions = tree_reg.predict(re_prepared)
+    tree_mse = mean_squared_error(labels,re_predictions)
+    tree_mse = np.sqrt(tree_mse)
+    print(tree_mse)
+
+    from sklearn.ensemble import RandomForestRegressor
    
 if __name__ == '__main__':
     main()
