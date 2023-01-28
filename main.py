@@ -183,7 +183,26 @@ def main():
     forest_rmse = np.sqrt(forest_rmse)
     scores = cross_val_score(forest_reg,re_prepared,labels,scoring='neg_mean_squared_error',cv=10)
     forest_rmse_score = np.sqrt(-scores)
-    display_score(forest_rmse_score)    
+    display_score(forest_rmse_score)  
+
+    #improving the model
+
+    from sklearn.model_selection import GridSearchCV
+
+    param_grid = [
+        {'n_estimators': [3,10,30],'max_features': [2,4,6,8]},
+        {'bootstrap': [False],'n_estimators': [3,10],'max_features': [2,3,4]},
+    ]
+    
+    forest_reg = RandomForestRegressor()
+    grid_search = GridSearchCV(forest_reg,param_grid,cv=5,
+                                scoring='neg_mean_squared_error',
+                                return_train_score=True)
+
+    grid_search.fit(re_prepared,labels)
+
+    print(grid_search.best_params_)
+      
     
 if __name__ == '__main__':
     main()
