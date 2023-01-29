@@ -207,6 +207,9 @@ def main():
     cvres = grid_search.cv_results_
     for mean_score,params in zip(cvres['mean_test_score'],cvres['params']):
         print(np.sqrt(-mean_score),params)
+
+    features_importance = grid_search.best_estimator_.feature_importances_
+    print(features_importance)
       
     
 if __name__ == '__main__':
