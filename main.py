@@ -210,6 +210,13 @@ def main():
 
     features_importance = grid_search.best_estimator_.feature_importances_
     print(features_importance)
+
+    extra_attribs = ["r","total_rooms","bathrooms"]
+    cat_encoder = full_pipeline.named_transformers_['cat']
+    cat_one_hot_attribs = list(cat_encoder.categories_[0])
+    attributes = num_attribs + cat_one_hot_attribs
+    print(sorted(zip(features_importance,attributes),reverse=True))
+
       
     
 if __name__ == '__main__':
