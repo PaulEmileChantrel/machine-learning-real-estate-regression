@@ -88,7 +88,7 @@ def main():
 
     # spliting the data
     
-    real_estate_df,test_set = train_test_split(real_estate_df,test_size=0.2,random_state=42)
+    train_set,test_set = train_test_split(real_estate_df,test_size=0.2,random_state=42)
     real_estate_df = real_estate_df.reset_index(drop=True)
     labels = real_estate_df['price'].copy()
     real_estate_df = real_estate_df.drop(['price'],axis=1)
@@ -218,8 +218,8 @@ def main():
     print(sorted(zip(features_importance,attributes),reverse=True))
 
     final_model = grid_search.best_estimator_
-    X_test = strat_test_set.drop(columns='price',axis=1)
-    y_test = strat_test_set['price'].copy()
+    X_test = test_set.drop('price',axis=1)
+    y_test = test_set['price'].copy()
 
     X_test_prepared = full_pipeline.transform(X_test)
     final_predictions = final_model.predict(X_test_prepared)
