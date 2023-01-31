@@ -217,6 +217,16 @@ def main():
     attributes = num_attribs + cat_one_hot_attribs
     print(sorted(zip(features_importance,attributes),reverse=True))
 
+    final_model = grid_search.best_estimator_
+    X_test = strat_test_set.drop(columns='price',axis=1)
+    y_test = strat_test_set['price'].copy()
+
+    X_test_prepared = full_pipeline.transform(X_test)
+    final_predictions = final_model.predict(X_test_prepared)
+    final_mse = mean_squared_error(y_test,final_predictions)
+    final_mse = np.sqrt(final_mse)
+
+    print(final_mse)
       
     
 if __name__ == '__main__':
