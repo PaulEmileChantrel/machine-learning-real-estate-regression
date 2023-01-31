@@ -227,7 +227,11 @@ def main():
     final_mse = np.sqrt(final_mse)
 
     print(final_mse)
-      
     
+    from scipy import stats
+    confidence =0.95
+    squared_error = (final_predictions - y_test) ** 2
+    se = np.sqrt(stats.t.interval(confidence, len(squared_error)-1, loc=squared_error.mean(), scale=stats.sem(squared_error)))
+    print(se)
 if __name__ == '__main__':
     main()
